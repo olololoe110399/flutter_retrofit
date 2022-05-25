@@ -11,6 +11,15 @@ abstract class RestClient {
   @GET("/users")
   Future<List<User>> getUsers();
 
+  @POST("/users")
+  Future<User> addUser(@Body() User user);
+
+  @PUT("/users/{id}")
+  Future<User> updateUser(
+    @Path() String id,
+    @Body() User user,
+  );
+
   @GET("/users/{id}")
   Future<User> getUserDetail(@Path() String id);
 }

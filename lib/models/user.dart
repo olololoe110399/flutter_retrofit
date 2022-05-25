@@ -27,4 +27,18 @@ class User {
   String toString() {
     return 'User(id: $id, name: $name, avatar: $avatar, createdAt: $createdAt)';
   }
+
+  User copyWith({
+    String? id,
+    String? name,
+    String? avatar,
+    String? createdAt,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      avatar: avatar ?? this.avatar,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 }

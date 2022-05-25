@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:provider_sample/api/rest_client.dart';
 import 'package:provider_sample/models/user.dart';
+import 'package:provider_sample/screens/add_user_screen.dart';
 
 final logger = Logger();
 
@@ -20,12 +21,34 @@ class UserDetailPage extends StatefulWidget {
 class _UserDetailPageState extends State<UserDetailPage> {
   final apiService = RestClient(Dio());
 
+  User? _user;
+
   @override
   Widget build(BuildContext context) {
+    _updateUser() {
+      print(_user);
+      if (_user == null) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => AddUserPage(
+            user: _user,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('User Detail Screen'),
+        actions: [
+          IconButton(
+            color: Colors.white,
+            icon: const Icon(Icons.edit),
+            onPressed: _updateUser,
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: apiService.getUserDetail(widget.id),
@@ -36,6 +59,7 @@ class _UserDetailPageState extends State<UserDetailPage> {
             );
           }
           User user = snapshot.data!;
+          _user = user;
           logger.i(user.toJson());
           return Padding(
             padding: const EdgeInsets.symmetric(
